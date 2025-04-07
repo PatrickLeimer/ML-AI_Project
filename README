@@ -1,0 +1,19 @@
+# Personal Finance Manager ML Project
+
+This project analyzes personal financial transactions using machine learning to detect fraud, predict spending patterns, and categorize transactions.
+
+## Features
+
+## Tech Stacks
+
+### Libraries and tools
+- Python
+- Scikit-learn
+- Pandas
+- NumPy
+
+## Machine Learning Models
+
+1. **Logistic Regression**
+   - Used for fraud detection
+   - Features: transaction amount, time, location, merchant category
