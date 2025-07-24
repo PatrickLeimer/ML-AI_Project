@@ -1,19 +1,86 @@
-# Personal Finance Manager ML Project
+# Personal Finance Manager – Machine-Learning Toolkit
 
-This project analyzes personal financial transactions using machine learning to detect fraud, predict spending patterns, and categorize transactions.
+## Overview
+This repository contains a collection of data-science utilities and Jupyter notebooks that help you analyse personal financial transactions.  
+The main objectives are:
 
-## Features
+1. Detect fraudulent transactions automatically.
+2. Predict/categorise spending patterns and merchant categories.
+3. Provide a reusable preprocessing pipeline for cleaning and engineering transaction data.
 
-## Tech Stacks
+The project is **exploratory** in nature – it accompanies a series of blog posts and lectures on applying classic machine-learning techniques to structured and text-heavy financial data.
 
-### Libraries and tools
-- Python
-- Scikit-learn
-- Pandas
-- NumPy
+## Key Features
+* **Fraud Detection** – Logistic Regression and Random Forest models trained on a balanced dataset (synthetic + real) to flag suspicious activity.
+* **Spending Category Classification** – Multinomial Naive Bayes (NLP) model that learns from the transaction *Description* free-text field.
+* **Synthetic Fraud Generator** – Quickly bootstrap models with `preprocessing/generate_fraud_data.py`.
+* **Data Cleaning & Feature Engineering** – Ready-to-use helpers under `preprocessing/` and `utils/`.
+* **Reproducible Notebooks** – Step-by-step walkthroughs for each modelling task.
 
-## Machine Learning Models
+## Project Structure
+```text
+MLAIProject1/
+├── notebooks
+│   ├── fraudLogistic.ipynb   # Logistic Regression baseline
+│   ├── fraudRF.ipynb         # Random Forest improvement
+│   └── NLPNaiveBayesFinal.ipynb # Text-based category classifier
+│
+├── preprocessing/
+│   ├── cleaner.py            # Placeholder for data-cleaning helpers
+│   ├── feature_engineering.py# Generate model-ready features
+│   └── generate_fraud_data.py# Create synthetic fraud samples
+│
+├── utils/
+│   └── fillna.py             # Merge raw files & patch missing values
+│
+├── raw/        # Original csv statements & generated fraud
+├── processed/  # Cleaned / model-ready datasets
+└── README      # You are here
+```
 
-1. **Logistic Regression**
-   - Used for fraud detection
-   - Features: transaction amount, time, location, merchant category
+## Data
+1. **Raw statements** – Exported CSVs from your bank or credit-card provider should be placed in `raw/`.  
+   Example columns: `Transaction Date`, `Posted Date`, `Card No.`, `Description`, `Category`, `Debit`, `Credit`.
+2. **Synthetic fraud** – Run `python preprocessing/generate_fraud_data.py` to create extra fraudulent transactions for class-balance.
+3. **Combined dataset** – Execute `utils/fillna.py` to merge raw + synthetic data and to patch missing *Debit/Credit* fields.  
+   The resulting file is written to `processed/combined_transactions.csv`.
+
+## Getting Started
+1. **Clone the repo**
+```bash
+git clone https://github.com/your-username/MLAIProject1.git
+cd MLAIProject1
+```
+2. **Create a virtual environment & install dependencies** (example)
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements.txt  # create one containing pandas numpy scikit-learn nltk jupyter
+```
+3. **Prepare the data**
+```bash
+# (a) Generate synthetic fraud samples
+python preprocessing/generate_fraud_data.py
+
+# (b) Combine with your latest statement
+python utils/fillna.py
+```
+4. **Open the notebooks**
+```bash
+jupyter notebook
+```
+Run the notebooks in numerical order to reproduce the experiments.
+
+## Notebook Guide
+| Notebook | Goal |
+|----------|------|
+| `fraudLogistic.ipynb` | Baseline fraud-detection using Logistic Regression |
+| `fraudRF.ipynb` | Improved ensemble approach with Random Forests |
+| `NLPNaiveBayesFinal.ipynb` | Categorise transactions based on text using Naive Bayes |
+
+## Results
+Detailed metrics (accuracy, precision-recall, ROC curves) are reported inside each notebook.  
+A summary table will be added here once experiments are finalised.
+
+## Contributing
+Pull requests are welcome!  Feel free to open an issue or submit improvements, whether it’s code, documentation, or ideas for new models.
